@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <!-- Nous chargeons les fichiers CDN de Leaflet. Le CSS AVANT le JS -->
+        <link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.1/dist/leaflet.css" integrity="sha512-Rksm5RenBEKSKFjgI3a41vrjkw4EVPlJ3+OiI65vTjIdo9brlAacEuKOiQ5OFh7cOI1bkDwLqdLw3Zg0cRJAAQ==" crossorigin="" />
+        <style type="text/css">
+            #map{ /* la carte DOIT avoir une hauteur sinon elle n'apparaît pas */
+                height:600px;
+            }
+
+              /*HEADER & FOOTER*/
+              header, footer{
+                width: 100%;
+                padding: 20px 0px;
+                background: url("https://www.uvs.sn/wp-content/uploads/2022/04/14_avr_2022_Banner-signature-conventions-Plan-UVS.png") #4f4f4f;
+                box-shadow: 0px 0px 15px #333;
+            }
+            header{
+                border-bottom: 2px solid #fff;
+                height: 120px;
+            }
+            header h1{
+                color: white;
+                font-size: 1.5em;
+                width: 90%;
+                margin: 0 auto;
+            }
+
+            footer{
+                border-top: 2px solid #fff;
+            }
+            footer p{
+                width: 90%;hh
+                margin: 0 auto;
+                color: #fff;
+                text-align: center;
+            }
+            footer a{
+                color: #fff;
+            }
+        </style>
+        <title>UVS Géolocalisation </title>
+        
+    </head>
+    <body>
+        <header style="color: black;"> 
+            <h1>Carthographie des ENO de l'UVS</h1>
+        </header>
+        <div id="map">
+
+        </div>
+    
+        <!-- Fichiers Javascript -->
+        <script src="https://unpkg.com/leaflet@1.3.1/dist/leaflet.js" integrity="sha512-/Nsx9X4HebavoBvEBuyp3I7od5tA0UzAxs+j83KgC8PU0kgB4XiK4Lfe4y4cgBtaRJQEIFCW+oC506aPT2L1zw==" crossorigin=""></script>
+	    <script type="text/javascript">
+            // On initialise la latitude et la longitude de Paris (centre de la carte)
+            var lat = 14.7349476;
+            var lon = -17.472841;
+            var macarte = null;
+            // Nous initialisons une liste de marqueurs
+            var uvs = {
+            "ENO Gudiawaye": { "lat": 14.755076666666666, "lon": -17.43085833333333 },
+            "ENO PIKINE": { "lat":14.71776, "lon":-17.46178  },
+            "ENO DAKAR": { "lat": 14.74654, "lon": -17.44739 }
+};
+            // Fonction d'initialisation de la carte
+            function initMap() {
+                // Créer l'objet "macarte" et l'insèrer dans l'élément HTML qui a l'ID "map"
+                macarte = L.map('map').setView([lat, lon], 11);
+                // Leaflet ne récupère pas les cartes (tiles) sur un serveur par défaut. Nous devons lui préciser où nous souhaitons les récupérer. Ici, openstreetmap.fr
+                L.tileLayer('https://{s}.tile.openstreetmap.fr/osmfr/{z}/{x}/{y}.png', {
+                    // Il est toujours bien de laisser le lien vers la source des données
+                    attribution: 'données © <a href="//osm.org/copyright">OpenStreetMap</a>/ODbL - rendu <a href="//openstreetmap.fr">OSM Sénégal</a>',
+                    minZoom: 1,
+                    maxZoom: 20
+                }).addTo(macarte);
+                // Nous parcourons la liste des etudiants
+                for (edt in uvs) {
+	            
+                    // Nous définissons l'icône à utiliser pour le marqueur, sa taille affichée (iconSize), sa position (iconAnchor) et le décalage de son ancrage (popupAnchor)
+                    var myIcon = L.icon({
+                    iconUrl: 'images/eno.png',
+                    iconSize: [50, 50],
+                    iconAnchor: [25, 50],
+                    popupAnchor: [-3, -76],
+                });
+                    var marker = L.marker([uvs[edt].lat, uvs[edt].lon], { icon: myIcon }).addTo(macarte);
+                    // Nous ajoutons la popup. A noter que son contenu (ici la variable etd) peut être du HTML
+                    marker.bindPopup(edt);
+
+                } 
+            }
+            window.onload = function(){
+		// Fonction d'initialisation qui s'exécute lorsque le DOM est chargé
+		initMap(); 
+            };
+        </script>
+
+        <footer>
+            <p><a href="https://www.aly-seck.com">©UVS</a> 2022</p>
+        </footer>
+    </body>
+</html>

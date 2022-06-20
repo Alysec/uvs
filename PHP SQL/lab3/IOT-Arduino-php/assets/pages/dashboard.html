@@ -1,0 +1,143 @@
+<html>
+
+<head>
+    <title>TP 2 - PHP SQL</title>
+    <link rel="stylesheet">
+    <!-- Bootstrap core CSS -->
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css">
+    <!-- Bootstrap core CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Material Design Bootstrap -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.7.6/css/mdb.min.css" rel="stylesheet">
+</head>
+
+<body>
+    <div class="container z-depth-1">
+        <nav class="navbar navbar-default secondary-color-dark">
+            <div class="container-fluid">
+                <!-- Brand and toggle get grouped for better mobile display -->
+                <div class="navbar-header">
+
+
+                    <a class="navbar-brand" style="color: white;"><b><i>TP PHP SQL Systeme de pesage automatique</i></b></a>
+
+                </div>
+                <div class="navbar-right">
+                    <ul class="nav navbar-nav navbar-right">
+                        <li>
+                            <a href="../php/logout.php" class="btn btn-primary btn-sm"><b>Deconnexion </b></a>
+
+                        </li>
+                    </ul>
+                </div>
+                <!-- Collect the nav links, forms, and other content for toggling -->
+            </div><!-- /.container-fluid -->
+        </nav><br>
+
+        <div class="row">
+            <div class="col-md-5">
+                <div class="card">
+                    <div class="card-header success-color">
+                        <p class="lead" style="color: white;">Reception des donnees en temps reel</p>
+                    </div>
+                    <div class="card-body">
+                        <p class="card-text"> Appuyez sur l'un des boutons ci-dessous pour configurer le poids maximale : </p>
+                        <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
+                            <button type="button" class="btn btn-unique btn-sm"
+                                onclick="setVariabel(10)">10 T</button>
+                            <button type="button" class="btn btn-unique btn-sm"
+                                onclick="setVariabel(20)">20 T</button>
+                            <button type="button" class="btn btn-unique btn-sm"
+                                onclick="setVariabel(30)">30 T</button>
+                            <button type="button" class="btn btn-unique btn-sm"
+                                onclick="setVariabel(40)">40 T</button>
+                        </div><br><br>
+                        <h6 class="d-inline card-text"><i class="fas fa-truck-moving"></i> Poids total :</h6>
+                        <p class="d-inline card-text " id="berat"></p>
+                        <p class="d-inline card-text">Tonne(s)</p>
+                        <br>
+                        <p class="card-text" style="font-size: 12px;" id="waktu"></p>
+                        <span class="badge badge-danger" id="pesan"></span>
+                        <div class="btn danger-color btn-primary btn-sm float-right" data-toggle="modal"
+                            data-target="#basicExampleModal" onclick="loadModal()">Details</div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-7">
+                <div class="card">
+                    <div class="card-body">
+                        <p class="d-inline card-text"><i class="fas fa-truck-loading"></i> Poids de chargement du camion :</p>
+                        <p class="d-inline card-text" id="beratMuatan">
+                        </p>
+                        <p class="d-inline card-text">Tonne(s)</p>
+                        <hr>
+                        <p class="card-text">Cette application affiche en temps reel les donnees recues du capteur 
+                           <br><br>
+                            Les donnees sont saisies dans la base de donnees et traitees dans l'enregistrement des donnees.
+                          </p>
+                        <span class="badge badge-danger" id="pesan"></span>
+                    </div>
+                </div><br><br><br>
+
+            </div>
+
+            <br><br><br><br><br>
+        </div><br>
+
+        <!-- Modal -->
+        <div class="modal fade" id="basicExampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+            aria-hidden="true">
+
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Details</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+
+                    <div class="modal-body">
+                        <div id="dataLogging"></div>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Modal -->
+        <!-- Modal -->
+        <div class="modal fade" id="notifBatas" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+            aria-hidden="true">
+
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <p class="modal-title" id="exampleModalLabel">Le poids maximal a ete modifie</p>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Modal -->
+        <!-- JQuery -->
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <!-- Bootstrap tooltips -->
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.4/umd/popper.min.js">
+        </script>
+        <!-- Bootstrap core JavaScript -->
+        <script type="text/javascript"
+            src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
+        <!-- MDB core JavaScript -->
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.7.6/js/mdb.min.js">
+        </script>
+        <script type="text/javascript" src="../js/dashboard.js"></script>
+</body>
+
+</html>
